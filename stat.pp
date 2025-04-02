@@ -101,6 +101,7 @@ var
 	hash: uint64;
 	word: String;
 	c: Char;
+	sorted: Boolean;
 begin
 	if ParamCount < 1 then
 	begin
@@ -158,18 +159,26 @@ begin
 		end;
 
 		for i := Low(MapIdx) to High(MapIdx)-1 do
+		begin
+			sorted := true;
 			for j := i + 1 to High(MapIdx) do
 			begin
 				if hist[i] < hist[j] then
 				begin
+					sorted := false;
 					hash := hist[i];
 					word := hashes[i];
 					hist[i] := hist[j];
 					hashes[i] := hashes[j];
 					hist[j] := hash;
 					hashes[j] := word;
-				end;
+				end;	
 			end;
+			if sorted then
+			begin
+				Break;
+			end;
+		end;
 
 		for i := Low(MapIdx) to High(MapIdx) do
 		begin
